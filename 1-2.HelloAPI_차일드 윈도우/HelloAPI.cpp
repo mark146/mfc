@@ -65,8 +65,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, //윈도우 핸들
 			{
 				PAINTSTRUCT ps;//윈도우 클라이언트 영역에 그리는 정보를 갖고 있는 구조체, DC를 구한다.
 				HDC hdc = BeginPaint(hWnd, &ps);//출력준비
-				TextOut(hdc,100, 100, text, lstrlen(text));//핸들(divice context = dc:윈도우에 무언가를 출력하려면 여기에 입력해서 출력해야한다.출력을 위한 자료구조),윈도우 왼쪽상단 기준 X,Y,메시지를 출력, lstrlen:텍스트의 문자열 길이만큼 
-				TextOut(hdc, 200, 200, text2, lstrlen(text2));//핸들(divice context = dc:윈도우에 무언가를 출력하려면 여기에 입력해서 출력해야한다.출력을 위한 자료구조),윈도우 왼쪽상단 기준 X,Y,메시지를 출력, lstrlen:텍스트의 문자열 길이만큼 잡아주는것
+				TextOut(hdc,100, 100, text, lstrlen(text));
+				TextOut(hdc, 200, 200, text2, lstrlen(text2));
 				EndPaint(hWnd,&ps);//출력끝
 				return 0;
 			}

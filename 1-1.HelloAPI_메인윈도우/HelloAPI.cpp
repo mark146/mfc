@@ -1,11 +1,13 @@
-#include <windows.h>
+#include <windows.h>//기본적인 자료 타입, 함수 원형 등을 정의, 그 외 필요한 헤더 파일을 포함
 
 LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
 HINSTANCE g_hInst;
 LPCTSTR lpszClass= L"HelloAPI";
 
-int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpszCmdParam,
-					 int nCmdShow) {//윈도우 구조체
+int APIENTRY WinMain(HINSTANCE hInstance,//프로그램의 객체 핸들이다.
+					 HINSTANCE hPrevInstance,//현재 프로그램의 객체 핸들, 없을경우 NULL이 되며 WIN32에선 항상 NULL이다. 호환성을 위해서만 존재하는 매개변수이다.
+					 LPSTR lpszCmdParam,//명령행으로 입력된 프로그램 매개변수이다.
+					 int nCmdShow) {//프로그램이 실행될 형태이며 최소화, 보통 모양 등이 전달된다.
 	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;//만들어질 윈도우의 특성을 정의하는 구조체
@@ -46,22 +48,25 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpszCmdPa
 	return Message.wParam;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage,WPARAM wParam, LPARAM lParam){//윈도우 프로시저
+LRESULT CALLBACK WndProc(HWND hWnd,//메시지가 전달될 윈도우 핸들
+						 UINT iMessage,//메시지의 종류
+						 WPARAM wParam,//메시지의 부가 정보
+	                     LPARAM lParam){//메시지의 부가 정보
 	LPCTSTR text = L"메인윈도우 생성";
 	
 	switch(iMessage) {
-		case WM_PAINT:
+		case WM_PAINT://화면을 다시 그려야 할 필요가 있을 때 발생
 			{
-				PAINTSTRUCT ps;
-				HDC hdc = BeginPaint(hWnd,&ps);
-				TextOut(hdc,100,100,text,lstrlen(text));
-				EndPaint(hWnd,&ps);
+				PAINTSTRUCT ps;//윈도우 클라이언트 영역에 무엇인가를 그리려고 할 때 필요한 정보를 담고 있는 구조체
+				HDC hdc = BeginPaint(hWnd,&ps);//1.위 구조체생성에 필요한 정보를 채우고 OS에 DC요청 리턴값으로 DC핸들을 가져온다.
+				TextOut(hdc,100,100,text,lstrlen(text));//2.OS가 제공한 DC를 매개변수로하는 API함수를 호출하여 출력
+				EndPaint(hWnd,&ps);//3.DC 사용이 끝났음을 OS에 알린다.
 				return 0;
 			}
-		case WM_DESTROY:
-			PostQuitMessage(0);
+		case WM_DESTROY://윈도우가 메모리에서 파괴될 때 발생한다.
+			PostQuitMessage(0);//WM_QUIT 메시지를 시스템 큐에 보내서 리턴값으로 False로 받아와 종료된다.
 			return 0;
 		}
 
-	return(DefWindowProc(hWnd,iMessage,wParam,lParam));
+	return(DefWindowProc(hWnd,iMessage,wParam,lParam));//WndProc에서 처리하지 않은 나머지 메시지에 관해 처리함
 }
