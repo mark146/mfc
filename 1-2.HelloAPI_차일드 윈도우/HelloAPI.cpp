@@ -84,9 +84,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, //윈도우 핸들
 				(HMENU) 1000,        	// 차일드 윈도우ID 
 				g_hInst,           		// 인스턴스 핸들 
 				(LPVOID) NULL);      	// 여분의 데이터
-
-			if (!hChildWnd) 	return -1;
-
+			if (!hChildWnd) 	return -1;//차일드 윈도우가 성공적으로 생성되었는지 윈도우 핸들을 검사
 			ShowWindow(hChildWnd, SW_SHOW); 
 			return 0;
 		}

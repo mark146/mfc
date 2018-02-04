@@ -3,8 +3,8 @@
 #define ID_OK_BTN	2000
 
 HINSTANCE g_hInst;
-LPCTSTR lpszClass = "HelloAPI";
-LPCTSTR ChildClassName  = "ChildWin";
+LPCTSTR lpszClass = L"HelloAPI";
+LPCTSTR ChildClassName  = L"ChildWin";
 
 
 LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
@@ -37,7 +37,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	RegisterClass(&WndClass); 
 
 	hWnd=CreateWindow(lpszClass,			//윈도우클래스 이름
-					"윈도우 프로그래밍",			    //윈도우타이틀
+					L"윈도우 프로그래밍",			    //윈도우타이틀
 					WS_OVERLAPPEDWINDOW | WS_VISIBLE,   //윈도우스타일
 					200, 200,							//윈도우가 보일때 X Y좌표
 					600, 600,							//윈도우의 폭과 높이				
@@ -58,13 +58,13 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage,
 						 WPARAM wParam, LPARAM lParam)
 {
-	char text[] = "메인윈도우 생성";
+	LPCTSTR text = L"메인윈도우 생성";
 	switch(iMessage) {
 		case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(hWnd, &ps);
-				TextOut(hdc,100, 100, text, strlen(text));
+				TextOut(hdc,100, 100, text, lstrlen(text));
 				EndPaint(hWnd,&ps);
 				return 0;
 			}
@@ -72,29 +72,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage,
 		{
 			HWND hChildWnd = CreateWindow( 
 							ChildClassName,     		// 차일드 윈도우 클래스 이름 
-							"차일드 윈도우",            	// 윈도우 타이틀 
+							L"차일드 윈도우",            	// 윈도우 타이틀 
 							WS_OVERLAPPEDWINDOW | WS_CHILD,  // 윈도우  스타일 
 							150,       		// 윈도우 보일 때 x 좌표 
 							150,       		// 윈도우 보일 때 y 좌표 
 							260,       		// 윈도우 폭
 							200,       		// 윈도우 높이
 							hWnd,         		// 부모 윈도우
-							(HMENU) 2000,        	// 차일드 윈도우ID 
+							(HMENU) 1000,        	// 차일드 윈도우ID 
 							g_hInst,           		// 인스턴스 핸들 
 							(LPVOID) NULL);      	// 여분의 데이터			
 
 			ShowWindow(hChildWnd, SW_SHOW); 
 
 			hChildWnd = CreateWindow(
-							"button",        		// 윈도우 클래스 이름 
-							"지역대학",			// 윈도우 타이틀 
-							WS_CHILD|WS_VISIBLE, 	// 윈도우 스타일 
-							20,       		// 윈도우 보일 때 x 좌표 
-							400,       		// 윈도우 보일 때 y 좌표 
-							100,       		// 윈도우 폭
-							30,       		// 윈도우 높이
-							hWnd,         		// 부모 윈도우
-							(HMENU) ID_OK_BTN,   	// 컨트롤 ID
+							L"button",        		// 만들고자 하는 윈도우의 클래스
+							L"테스트",			// 윈도우 타이틀, 컨트롤에 따라 캡션의 위치가 달라진다.
+							WS_CHILD|WS_VISIBLE, 	// 윈도우 스타일 속성값,WS_VISIBLE을 주어야 ShowWindow 함수를 호출안해도 컨트롤이 화면에 실행됨
+							20, 400,      		// 윈도우 보일 때 x,y 좌표 
+							100, 30,      		// 윈도우 폭, 높이
+							hWnd,         		// 부모 윈도우를 지정하며, 반드시 부모 윈도우가 있어야 한다.
+							(HMENU) ID_OK_BTN,   	// 컨트롤 ID, 차일드 컨트롤의 경우 메뉴를 가지지않는다.
 							g_hInst,           		// 인스턴스 핸들 
 							(LPVOID) NULL);      	// 여분의 데이터
 
@@ -105,7 +103,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage,
 		{
 			if(LOWORD(wParam) == ID_OK_BTN)
 			{
-				MessageBox(hWnd,"[지역대학] 버튼이 클릭되었다","지역대학",MB_OK);
+				MessageBox(hWnd,L"[테스트] 버튼이 클릭되었다",L"테스트",MB_OK);
 			}
 
 			return 0;
@@ -118,14 +116,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage,
 }
 LRESULT CALLBACK ChildWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	char text[] = "차일드 윈도우생성";
+	LPCTSTR text = L"차일드 윈도우생성";
 	switch(message)
 	{
 		case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hWnd,&ps);
-			TextOut(hdc,10, 10, text, strlen(text));
+			TextOut(hdc,10, 10, text, lstrlen(text));
 			EndPaint(hWnd,&ps);
 			return 0;
 		}
