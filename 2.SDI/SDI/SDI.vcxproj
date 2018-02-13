@@ -156,7 +156,6 @@
     <ResourceCompile Include="SDI.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="res\SDI.rc2" />
   </ItemGroup>
   <ItemGroup>
